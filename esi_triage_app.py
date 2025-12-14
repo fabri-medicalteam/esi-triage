@@ -66,22 +66,22 @@ rph = st.empty()
 esi_level = None; decision_point = ''; findings = []; resources_selected = []
 
 # POINT A
-st.markdown('<div style="font-size:18px;font-weight:600;color:#374151;margin-bottom:16px;padding-bottom:8px;border-bottom:2px solid #DC2626;">Passo 1: O paciente esta morrendo agora?</div>', unsafe_allow_html=True)
-st.markdown('<div style="background:#FEF2F2;border-left:4px solid #DC2626;padding:12px 16px;border-radius:0 8px 8px 0;margin-bottom:16px;"><span style="font-weight:500;color:#991B1B;">Precisa de intervencao imediata para salvar a vida? Se SIM = ESI 1</span></div>', unsafe_allow_html=True)
+st.markdown('<div style="font-size:18px;font-weight:600;color:#374151;margin-bottom:16px;padding-bottom:8px;border-bottom:2px solid #DC2626;">Passo 1: Intervencao imediata para salvar a vida</div>', unsafe_allow_html=True)
+st.markdown('<div style="background:#FEF2F2;border-left:4px solid #DC2626;padding:12px 16px;border-radius:0 8px 8px 0;margin-bottom:16px;"><span style="font-weight:500;color:#991B1B;">Requer manejo de via aerea, ventilacao, ressuscitacao ou medicacao de emergencia = ESI 1</span></div>', unsafe_allow_html=True)
 
 ca1, ca2 = st.columns(2)
 with ca1:
-    a1 = st.checkbox("Precisa ser intubado agora")
-    a2 = st.checkbox("Parou de respirar ou esta em parada cardiaca")
-    a3 = st.checkbox("Nao tem pulso palpavel")
-    a4 = st.checkbox("Esta sufocando ou nao consegue respirar")
-    a5 = st.checkbox("Saturacao menor que 90%")
+    a1 = st.checkbox("Intubado ou necessita intubacao imediata")
+    a2 = st.checkbox("Apneico ou em parada cardiorrespiratoria")
+    a3 = st.checkbox("Ausencia de pulso")
+    a4 = st.checkbox("Insuficiencia respiratoria grave")
+    a5 = st.checkbox("SpO2 < 90%")
 with ca2:
-    a6 = st.checkbox("Nao responde a estimulos")
-    a7 = st.checkbox("Mudanca subita de consciencia")
-    a8 = st.checkbox("Via aerea obstruida ou em risco")
-    a9 = st.checkbox("Precisa de medicacao de emergencia agora")
-    a10 = st.checkbox("Precisa de intervencao para pressao ou ritmo")
+    a6 = st.checkbox("Irresponsivo (nao responde a estimulos)")
+    a7 = st.checkbox("Rebaixamento agudo do nivel de consciencia")
+    a8 = st.checkbox("Comprometimento de via aerea")
+    a9 = st.checkbox("Necessita medicacao de emergencia")
+    a10 = st.checkbox("Necessita intervencao hemodinamica")
 
 pa = any([a1,a2,a3,a4,a5,a6,a7,a8,a9,a10])
 if pa:
@@ -91,22 +91,22 @@ if pa:
 
 # POINT B
 st.markdown('<div style="height:24px;"></div>', unsafe_allow_html=True)
-st.markdown('<div style="font-size:18px;font-weight:600;color:#374151;margin-bottom:16px;padding-bottom:8px;border-bottom:2px solid #EA580C;">Passo 2: Pode esperar ou vai piorar rapido?</div>', unsafe_allow_html=True)
-st.markdown('<div style="background:#FFF7ED;border-left:4px solid #EA580C;padding:12px 16px;border-radius:0 8px 8px 0;margin-bottom:16px;"><span style="font-weight:500;color:#9A3412;">Se voce colocaria esse paciente no ultimo leito disponivel = ESI 2</span></div>', unsafe_allow_html=True)
+st.markdown('<div style="font-size:18px;font-weight:600;color:#374151;margin-bottom:16px;padding-bottom:8px;border-bottom:2px solid #EA580C;">Passo 2: Situacao de alto risco</div>', unsafe_allow_html=True)
+st.markdown('<div style="background:#FFF7ED;border-left:4px solid #EA580C;padding:12px 16px;border-radius:0 8px 8px 0;margin-bottom:16px;"><span style="font-weight:500;color:#9A3412;">Paciente que voce colocaria no ultimo leito disponivel = ESI 2</span></div>', unsafe_allow_html=True)
 
 db = pa
 cb1, cb2 = st.columns(2)
 with cb1:
-    b1 = st.checkbox("Esta confuso, sonolento ou desorientado", disabled=db)
-    b2 = st.checkbox("Pode piorar rapidamente se nao atendido", disabled=db)
-    b3 = st.checkbox("Dor muito forte (7 ou mais de 10)", disabled=db)
-    b4 = st.checkbox("Muito desconfortavel ou agitado", disabled=db)
+    b1 = st.checkbox("Confuso, letargico ou desorientado", disabled=db)
+    b2 = st.checkbox("Risco de deterioracao clinica", disabled=db)
+    b3 = st.checkbox("Dor intensa (EVA >= 7/10)", disabled=db)
+    b4 = st.checkbox("Desconforto grave ou agitacao", disabled=db)
 with cb2:
-    b5 = st.checkbox("Dor no peito que pode ser infarto", disabled=db)
-    b6 = st.checkbox("Sinais de AVC (fala, forca, rosto)", disabled=db)
-    b7 = st.checkbox("Suspeita de infeccao grave (sepse)", disabled=db)
-    b8 = st.checkbox("Intoxicacao ou overdose", disabled=db)
-    b9 = st.checkbox("Risco de se machucar ou pensamento suicida", disabled=db)
+    b5 = st.checkbox("Dor toracica sugestiva de SCA", disabled=db)
+    b6 = st.checkbox("Deficit neurologico agudo (suspeita AVC)", disabled=db)
+    b7 = st.checkbox("Suspeita de sepse", disabled=db)
+    b8 = st.checkbox("Intoxicacao exogena / overdose", disabled=db)
+    b9 = st.checkbox("Ideacao suicida ou risco de autolesao", disabled=db)
 
 pb = any([b1,b2,b3,b4,b5,b6,b7,b8,b9])
 if not pa and pb:
@@ -116,24 +116,24 @@ if not pa and pb:
 
 # POINT C
 st.markdown('<div style="height:24px;"></div>', unsafe_allow_html=True)
-st.markdown('<div style="font-size:18px;font-weight:600;color:#374151;margin-bottom:16px;padding-bottom:8px;border-bottom:2px solid #CA8A04;">Passo 3: O que esse paciente vai precisar?</div>', unsafe_allow_html=True)
-st.markdown('<div style="background:#FEFCE8;border-left:4px solid #CA8A04;padding:12px 16px;border-radius:0 8px 8px 0;margin-bottom:16px;"><span style="font-weight:500;color:#713F12;">Recursos = exames ou tratamentos que ocupam tempo e equipe. Conte TIPOS diferentes (ex: sangue + raio-x = 2).</span></div>', unsafe_allow_html=True)
+st.markdown('<div style="font-size:18px;font-weight:600;color:#374151;margin-bottom:16px;padding-bottom:8px;border-bottom:2px solid #CA8A04;">Passo 3: Estimativa de recursos</div>', unsafe_allow_html=True)
+st.markdown('<div style="background:#FEFCE8;border-left:4px solid #CA8A04;padding:12px 16px;border-radius:0 8px 8px 0;margin-bottom:16px;"><span style="font-weight:500;color:#713F12;">Conte TIPOS diferentes de recursos (ex: laboratorio + imagem = 2). Nao conte quantidade de exames.</span></div>', unsafe_allow_html=True)
 
 dc = pa or pb
 cc1, cc2 = st.columns(2)
 with cc1:
     st.markdown('<div style="font-size:12px;color:#6B7280;margin-bottom:8px;font-weight:500;">EXAMES</div>', unsafe_allow_html=True)
-    r1 = st.checkbox("Exames de sangue ou urina", disabled=dc)
-    r2 = st.checkbox("Eletrocardiograma (ECG)", disabled=dc)
-    r3 = st.checkbox("Raio-X", disabled=dc)
+    r1 = st.checkbox("Laboratorio (sangue, urina)", disabled=dc)
+    r2 = st.checkbox("ECG", disabled=dc)
+    r3 = st.checkbox("Radiografia", disabled=dc)
     r4 = st.checkbox("Tomografia (CT)", disabled=dc)
     r5 = st.checkbox("Ressonancia (MRI)", disabled=dc)
     r6 = st.checkbox("Ultrassonografia", disabled=dc)
 with cc2:
     st.markdown('<div style="font-size:12px;color:#6B7280;margin-bottom:8px;font-weight:500;">TRATAMENTOS</div>', unsafe_allow_html=True)
-    r7 = st.checkbox("Soro na veia (hidratacao)", disabled=dc)
-    r8 = st.checkbox("Medicacao injetavel ou inalatoria", disabled=dc)
-    r9 = st.checkbox("Avaliacao de especialista", disabled=dc)
+    r7 = st.checkbox("Hidratacao IV", disabled=dc)
+    r8 = st.checkbox("Medicacao IV/IM/nebulizacao", disabled=dc)
+    r9 = st.checkbox("Interconsulta", disabled=dc)
     r10 = st.checkbox("Procedimento simples (sutura, sonda)", disabled=dc)
     r11 = st.checkbox("Procedimento complexo (conta como 2)", disabled=dc)
 
@@ -145,8 +145,8 @@ st.markdown(f'<div style="background:#F3F4F6;padding:16px;border-radius:8px;marg
 
 # POINT D
 st.markdown('<div style="height:24px;"></div>', unsafe_allow_html=True)
-st.markdown('<div style="font-size:18px;font-weight:600;color:#374151;margin-bottom:16px;padding-bottom:8px;border-bottom:2px solid #6B7280;">Passo 4: Os sinais vitais estao normais?</div>', unsafe_allow_html=True)
-st.markdown('<div style="background:#F3F4F6;border-left:4px solid #6B7280;padding:12px 16px;border-radius:0 8px 8px 0;margin-bottom:16px;"><span style="font-weight:500;color:#374151;">Sinais fora do normal podem indicar que o paciente precisa ser reavaliado para ESI 2.</span></div>', unsafe_allow_html=True)
+st.markdown('<div style="font-size:18px;font-weight:600;color:#374151;margin-bottom:16px;padding-bottom:8px;border-bottom:2px solid #6B7280;">Passo 4: Avaliacao de sinais vitais</div>', unsafe_allow_html=True)
+st.markdown('<div style="background:#F3F4F6;border-left:4px solid #6B7280;padding:12px 16px;border-radius:0 8px 8px 0;margin-bottom:16px;"><span style="font-weight:500;color:#374151;">Sinais vitais na zona de perigo podem indicar necessidade de reclassificacao para ESI 2.</span></div>', unsafe_allow_html=True)
 
 cd1, cd2, cd3 = st.columns(3)
 with cd1: hr = st.number_input("Frequencia cardiaca (bpm)", 30, 250, 80)
@@ -155,9 +155,9 @@ with cd3: spo2 = st.number_input("Saturacao de oxigenio (%)", 50, 100, 98)
 
 da = check_danger(hr, rr, spo2)
 if da and not dc:
-    st.markdown(f'<div style="background:#FEF3C7;border-left:4px solid #F59E0B;padding:12px 16px;border-radius:0 8px 8px 0;margin-top:16px;"><div style="font-weight:600;color:#92400E;">Atencao: Valores fora da faixa normal - {", ".join(da)}</div><div style="font-size:13px;color:#78350F;margin-top:4px;">Considere se o paciente precisa ser reclassificado para ESI 2</div></div>', unsafe_allow_html=True)
+    st.markdown(f'<div style="background:#FEF3C7;border-left:4px solid #F59E0B;padding:12px 16px;border-radius:0 8px 8px 0;margin-top:16px;"><div style="font-weight:600;color:#92400E;">Zona de perigo: {", ".join(da)}</div><div style="font-size:13px;color:#78350F;margin-top:4px;">Considere upgrade para ESI 2</div></div>', unsafe_allow_html=True)
 
-up2 = st.checkbox("Reclassificar para ESI 2 (sinais vitais preocupantes)", disabled=dc or not da)
+up2 = st.checkbox("Upgrade para ESI 2 (zona de perigo)", disabled=dc or not da)
 
 if not pa and not pb:
     if up2 and da:
