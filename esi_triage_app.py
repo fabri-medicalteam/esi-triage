@@ -7,7 +7,7 @@ st.markdown("""
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap');
 *{font-family:'IBM Plex Sans',sans-serif!important}
 #MainMenu,footer,.stDeployButton,header{display:none!important}
-.block-container{padding-top:2rem!important;padding-bottom:2rem!important;max-width:1200px!important}
+.block-container{padding-top:1rem!important;padding-bottom:2rem!important;max-width:1200px!important}
 /* Force light mode */
 html, body, [data-testid="stAppViewContainer"], [data-testid="stApp"] {
     background-color: #FFFFFF !important;
@@ -19,6 +19,25 @@ html, body, [data-testid="stAppViewContainer"], [data-testid="stApp"] {
 .stTextInput>div>div>input, .stNumberInput>div>div>input, .stTextArea>div>div>textarea {
     background-color: #FFFFFF !important;
     color: #111827 !important;
+}
+/* Mobile responsive */
+@media (max-width: 768px) {
+    .block-container{padding-left:1rem!important;padding-right:1rem!important}
+    [data-testid="column"] {width: 100% !important; flex: 100% !important; min-width: 100% !important;}
+    [data-testid="stHorizontalBlock"] {flex-wrap: wrap !important; gap: 0.5rem !important;}
+    .stCheckbox {padding: 8px 0 !important;}
+    .stCheckbox label {font-size: 14px !important;}
+    .stNumberInput {margin-bottom: 0.5rem !important;}
+}
+/* Touch-friendly checkboxes */
+.stCheckbox > label {
+    padding: 10px 0 !important;
+    cursor: pointer !important;
+}
+.stCheckbox > label > div[data-testid="stCheckbox"] {
+    min-height: 44px !important;
+    display: flex !important;
+    align-items: center !important;
 }
 </style>
 """, unsafe_allow_html=True)
@@ -72,7 +91,7 @@ def gen_summary(lvl, dp, f, rc, rl):
     if rl: s.append(""); s.append(f"Recursos: {rc}"); s.extend([f"  - {RESOURCES.get(x,x)}" for x in rl])
     return "\n".join(s)
 
-st.markdown(f'<div style="background:#FFF;padding:24px 32px;border-radius:16px;box-shadow:0 4px 12px rgba(0,0,0,.08);margin-bottom:32px;display:flex;align-items:center;gap:24px;">{LOGO_SVG}<div style="width:1px;height:40px;background:#E5E7EB;"></div><div><div style="font-size:22px;font-weight:600;color:#111827;">Emergency Severity Index (ESI)</div><div style="font-size:14px;color:#6B7280;margin-top:4px;">Algoritmo de Triagem v5</div></div></div>', unsafe_allow_html=True)
+st.markdown(f'<div style="background:#FFF;padding:16px 20px;border-radius:16px;box-shadow:0 4px 12px rgba(0,0,0,.08);margin-bottom:24px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;">{LOGO_SVG}<div style="width:1px;height:40px;background:#E5E7EB;display:none;"></div><div><div style="font-size:18px;font-weight:600;color:#111827;">Emergency Severity Index (ESI)</div><div style="font-size:13px;color:#6B7280;margin-top:2px;">Algoritmo de Triagem v5</div></div></div>', unsafe_allow_html=True)
 
 rph = st.empty()
 esi_level = None; decision_point = ''; findings = []; resources_selected = []
@@ -188,15 +207,15 @@ e = ESI[esi_level]
 ft = "".join([f'<span style="display:inline-block;padding:4px 12px;border-radius:16px;font-size:12px;font-weight:500;color:#FFF;background:{e["c"]};margin:2px 4px 2px 0;">{f}</span>' for f in findings[:6]])
 
 with rph.container():
-    st.markdown(f'<div style="background:{e["bg"]};border:2px solid {e["c"]};border-radius:16px;padding:24px 32px;margin-bottom:24px;"><div style="display:flex;align-items:center;justify-content:space-between;"><div><div style="font-size:14px;color:{e["tx"]};opacity:.8;">Classificacao ESI</div><div style="font-size:36px;font-weight:700;color:{e["tx"]};">{e["l"]}</div><div style="font-size:16px;color:{e["tx"]};margin-top:4px;">{e["n"]}</div><div style="margin-top:12px;">{ft if ft else decision_point}</div></div><div style="text-align:right;"><div style="font-size:14px;color:{e["tx"]};opacity:.8;">Tempo</div><div style="font-size:32px;font-weight:700;color:{e["tx"]};">{e["t"]}</div></div></div></div>', unsafe_allow_html=True)
+    st.markdown(f'<div style="background:{e["bg"]};border:2px solid {e["c"]};border-radius:16px;padding:16px 20px;margin-bottom:20px;"><div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;"><div><div style="font-size:12px;color:{e["tx"]};opacity:.8;">Classificacao ESI</div><div style="font-size:28px;font-weight:700;color:{e["tx"]};">{e["l"]}</div><div style="font-size:14px;color:{e["tx"]};margin-top:2px;">{e["n"]}</div><div style="margin-top:8px;font-size:12px;">{ft if ft else decision_point}</div></div><div style="text-align:right;"><div style="font-size:12px;color:{e["tx"]};opacity:.8;">Tempo</div><div style="font-size:24px;font-weight:700;color:{e["tx"]};">{e["t"]}</div></div></div></div>', unsafe_allow_html=True)
 
 if st.button("Limpar e comecar nova triagem"): st.rerun()
 
 # LEGEND
-st.markdown('<div style="height:32px;"></div>', unsafe_allow_html=True)
+st.markdown('<div style="height:24px;"></div>', unsafe_allow_html=True)
 st.markdown('<div style="font-size:16px;font-weight:600;color:#374151;margin-bottom:16px;padding-bottom:8px;border-bottom:2px solid #E5E7EB;">Resumo dos niveis ESI</div>', unsafe_allow_html=True)
-lg = "".join([f'<div style="background:{v["bg"]};border-left:4px solid {v["c"]};padding:16px;border-radius:0 8px 8px 0;"><div style="font-size:18px;font-weight:700;color:{v["tx"]};">{v["l"]}</div><div style="font-size:13px;color:{v["tx"]};">{v["n"]}</div><div style="font-size:11px;color:{v["tx"]};opacity:.8;margin-top:8px;">{v["desc"]}</div></div>' for k, v in ESI.items()])
-st.markdown(f'<div style="display:grid;grid-template-columns:repeat(5,1fr);gap:12px;">{lg}</div>', unsafe_allow_html=True)
+lg = "".join([f'<div style="background:{v["bg"]};border-left:4px solid {v["c"]};padding:12px;border-radius:0 8px 8px 0;margin-bottom:8px;"><div style="font-size:16px;font-weight:700;color:{v["tx"]};">{v["l"]}</div><div style="font-size:12px;color:{v["tx"]};">{v["n"]}</div><div style="font-size:11px;color:{v["tx"]};opacity:.8;margin-top:4px;">{v["desc"]}</div></div>' for k, v in ESI.items()])
+st.markdown(f'<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;">{lg}</div>', unsafe_allow_html=True)
 
 # RESOURCES
 st.markdown('<div style="height:32px;"></div>', unsafe_allow_html=True)
@@ -214,11 +233,11 @@ with cr2:
     st.markdown(f'<div style="background:#FEF2F2;padding:16px;border-radius:8px;">{nr}</div>', unsafe_allow_html=True)
 
 # RESULT BOTTOM
-st.markdown('<div style="height:32px;"></div>', unsafe_allow_html=True)
+st.markdown('<div style="height:24px;"></div>', unsafe_allow_html=True)
 st.markdown('<div style="font-size:16px;font-weight:600;color:#374151;margin-bottom:16px;padding-bottom:8px;border-bottom:2px solid #E5E7EB;">Resultado</div>', unsafe_allow_html=True)
-st.markdown(f'<div style="background:{e["bg"]};border:2px solid {e["c"]};border-radius:16px;padding:24px 32px;margin-bottom:24px;"><div style="display:flex;align-items:center;justify-content:space-between;"><div><div style="font-size:14px;color:{e["tx"]};opacity:.8;">Classificacao ESI</div><div style="font-size:36px;font-weight:700;color:{e["tx"]};">{e["l"]}</div><div style="font-size:16px;color:{e["tx"]};margin-top:4px;">{e["n"]}</div><div style="margin-top:12px;">{ft if ft else decision_point}</div></div><div style="text-align:right;"><div style="font-size:14px;color:{e["tx"]};opacity:.8;">Tempo</div><div style="font-size:32px;font-weight:700;color:{e["tx"]};">{e["t"]}</div></div></div></div>', unsafe_allow_html=True)
+st.markdown(f'<div style="background:{e["bg"]};border:2px solid {e["c"]};border-radius:16px;padding:16px 20px;margin-bottom:20px;"><div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;"><div><div style="font-size:12px;color:{e["tx"]};opacity:.8;">Classificacao ESI</div><div style="font-size:28px;font-weight:700;color:{e["tx"]};">{e["l"]}</div><div style="font-size:14px;color:{e["tx"]};margin-top:2px;">{e["n"]}</div><div style="margin-top:8px;font-size:12px;">{ft if ft else decision_point}</div></div><div style="text-align:right;"><div style="font-size:12px;color:{e["tx"]};opacity:.8;">Tempo</div><div style="font-size:24px;font-weight:700;color:{e["tx"]};">{e["t"]}</div></div></div></div>', unsafe_allow_html=True)
 
 st.markdown('<div style="font-size:14px;font-weight:500;color:#374151;margin-bottom:8px;">Resumo</div>', unsafe_allow_html=True)
-st.text_area("r", value=gen_summary(esi_level, decision_point, findings, rc, resources_selected), height=180, label_visibility="collapsed")
+st.text_area("r", value=gen_summary(esi_level, decision_point, findings, rc, resources_selected), height=150, label_visibility="collapsed")
 
-st.markdown('<div style="margin-top:40px;padding:20px;text-align:center;border-top:1px solid #E5E7EB;"><div style="font-size:13px;color:#6B7280;"><strong style="color:#059669;">telepatia.ai</strong> - ESI v5</div><div style="font-size:12px;color:#9CA3AF;margin-top:4px;">Ferramenta de apoio. Nao substitui julgamento clinico.</div></div>', unsafe_allow_html=True)
+st.markdown('<div style="margin-top:32px;padding:16px;text-align:center;border-top:1px solid #E5E7EB;"><div style="font-size:12px;color:#6B7280;"><strong style="color:#059669;">telepatia.ai</strong> - ESI v5</div><div style="font-size:11px;color:#9CA3AF;margin-top:4px;">Ferramenta de apoio. Nao substitui julgamento clinico.</div></div>', unsafe_allow_html=True)
