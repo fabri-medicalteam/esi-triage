@@ -8,6 +8,18 @@ st.markdown("""
 *{font-family:'IBM Plex Sans',sans-serif!important}
 #MainMenu,footer,.stDeployButton,header{display:none!important}
 .block-container{padding-top:2rem!important;padding-bottom:2rem!important;max-width:1200px!important}
+/* Force light mode */
+html, body, [data-testid="stAppViewContainer"], [data-testid="stApp"] {
+    background-color: #FFFFFF !important;
+    color: #111827 !important;
+}
+[data-testid="stSidebar"], [data-testid="stHeader"] {
+    background-color: #FFFFFF !important;
+}
+.stTextInput>div>div>input, .stNumberInput>div>div>input, .stTextArea>div>div>textarea {
+    background-color: #FFFFFF !important;
+    color: #111827 !important;
+}
 </style>
 """, unsafe_allow_html=True)
 
